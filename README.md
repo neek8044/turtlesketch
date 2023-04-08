@@ -2,7 +2,7 @@
 
 **Draw simple sketches with console input or a macro file, using the python turtle library**
 
-License: Apache 2.0
+License: [Apache 2.0](/LICENSE)
 
 ### Commands
 - move [pixels] - Move forward for specified distance, backward with a negative
