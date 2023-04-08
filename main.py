@@ -90,9 +90,12 @@ def check_console():
                 print("Executing:", command[1])
                 with open(command[1]) as macro:
                     for line in macro:
-                        execute(line)
-            except Exception as ex:
-                print("ERROR:", ex, "\n--> Make sure you set the correct path.")
+                        line = line.replace("\n", "")
+                        execute(line.split(" "))
+            except FileNotFoundError:
+                print("--> Please set the correct path.")
+            except IndexError:
+                print("--> Please set a path.")
         else:
             execute(command)
 
