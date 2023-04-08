@@ -26,3 +26,5 @@ turn 90
 move 100
 ```
 (this creates a square)
+
+For a more complex one, check out [macro.txt](/macro.txt)
