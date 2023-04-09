@@ -2,8 +2,8 @@
 # Description: Draw simple sketches with console input or a macro file, using the python turtle library
 # Author: Nick Roussis (Neek8044)
 # Github: https://github.com/neek8044/
+# License: Apache 2.0
 
-# This is a very old project I found on my hard drive. I will try fixing it a little on later commits.
 
 import turtle as turtle
 import threading
@@ -39,21 +39,21 @@ def execute(command):
 
     # Toggle pointer (turtle) on/off
     if command[0] == "toggle":
-        if turtle_shown == 1:
+        if turtle_shown == True:
             t.hideturtle()
-            turtle_shown = 0
+            turtle_shown = False
         else:
             t.showturtle()
-            turtle_shown = 1
+            turtle_shown = True
 
     # Enable/disable pen output
     elif command[0] == "switch":
-        if penup == 1:
+        if penup == True:
             t.pendown()
-            penup = 0
+            penup = False
         else:
             t.penup()
-            penup = 1
+            penup = True
 
     # Change color based on given value
     elif command[0] == "color":
@@ -81,17 +81,19 @@ def execute(command):
         print("--> Please check spelling and try again.")
 
 
-def check_console():
-    while True:
+class console:
+    def execute_macro(command):
+        print("Executing:", command[1])
+        with open(command[1]) as macro:
+            for line in macro:
+                line = line.replace("\n", "")
+                execute(line.split(" "))
+
+    def parse():
         command = input("Command: ").split(" ")
-        
         if command[0] == "macro":
             try:
-                print("Executing:", command[1])
-                with open(command[1]) as macro:
-                    for line in macro:
-                        line = line.replace("\n", "")
-                        execute(line.split(" "))
+                console.execute_macro(command)
             except FileNotFoundError:
                 print("--> Please set the correct path.")
             except IndexError:
@@ -99,11 +101,15 @@ def check_console():
         else:
             execute(command)
 
+    def check():
+        while True:
+            console.parse()
 
-turtle_shown = 0
-penup = 0
 
-thread = threading.Thread(target=check_console)
+turtle_shown = False
+penup = False
+
+thread = threading.Thread(target=console.check)
 thread.start()
 
 turtle.tracer(1,0)
